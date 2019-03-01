@@ -13,23 +13,25 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.AppendValuesResponse;
-import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import es.np.dto.ClientDTO;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SheetsQuickstart {
+import static com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport;
+
+public class GoogleSheetAccess {
     private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
+    private static final String spreadsheetId = "1HMMAZtZRwFZVkvvDubdQVuSmyWPz3Cq4GDVABHmraCc";
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
@@ -45,7 +47,7 @@ public class SheetsQuickstart {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = SheetsQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = GoogleSheetAccess.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
@@ -58,24 +60,51 @@ public class SheetsQuickstart {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+
+    /**
+     * Prints the names and majors of students in a sample spreadsheet:
+     * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+     */
+    public static int lookUpCellOffset(ClientDTO cdto) throws IOException, GeneralSecurityException {
+        // Build a new authorized API client service.
+        final NetHttpTransport HTTP_TRANSPORT = newTrustedTransport();
+        final String range = "Scripts!A1";
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        ValueRange contentClients = new ValueRange().setValues(
+                Collections.<List<Object>>singletonList(
+                        Collections.<Object>singletonList(
+                                "\"=MATCH(\""+cdto.getClientId()+"\", MySheet1!A:A, 0)\"\n")));
+        //content.setMajorDimension("COLUMNS");
+        //ValueRange contentDocuments = new ValueRange().setValues(Arrays.asList(Arrays.asList("probando","un","doc3")));
+
+        AppendValuesResponse response = service.spreadsheets().values().append(spreadsheetId,range,contentClients).setValueInputOption("RAW").execute();
+        System.out.println(response);
+
+        return (int)response.getUpdates().getUpdatedData().getValues().get(0).get(0);
+    }
     /**
      * Prints the names and majors of students in a sample spreadsheet:
      * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
      */
     public static void main(String... args) throws IOException, GeneralSecurityException {
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setClientId(1234560);
+        int offset= lookUpCellOffset(clientDTO);
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "1HMMAZtZRwFZVkvvDubdQVuSmyWPz3Cq4GDVABHmraCc";
-        final String range = "Class Data!A2:E";
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-        ValueRange contentClients = new ValueRange().setValues(Arrays.<List<Object>>asList(Arrays.<Object>asList("cliente1","dato2","dato3")));
-        //content.setMajorDimension("COLUMNS");
-        //ValueRange contentDocuments = new ValueRange().setValues(Arrays.asList(Arrays.asList("probando","un","doc3")));
-
-
-        AppendValuesResponse response = service.spreadsheets().values().append(spreadsheetId,"Clientes!A2",contentClients).setValueInputOption("RAW").execute();
+//        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+//        final String spreadsheetId = "1HMMAZtZRwFZVkvvDubdQVuSmyWPz3Cq4GDVABHmraCc";
+//        final String range = "Class Data!A2:E";
+//        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+//                .setApplicationName(APPLICATION_NAME)
+//                .build();
+//        ValueRange contentClients = new ValueRange().setValues(Arrays.<List<Object>>asList(Arrays.<Object>asList("cliente1","dato2","dato3")));
+//        //content.setMajorDimension("COLUMNS");
+//        //ValueRange contentDocuments = new ValueRange().setValues(Arrays.asList(Arrays.asList("probando","un","doc3")));
+//
+//
+//        AppendValuesResponse response = service.spreadsheets().values().append(spreadsheetId,"Clientes!A2",contentClients).setValueInputOption("RAW").execute();
 
     }
 }
