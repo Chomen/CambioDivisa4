@@ -15,6 +15,7 @@ public class ClientDTO {
     boolean spainResident;
     double lastAmount;
     double foreignAmount;
+    String incomeBill;
     String curr;
     String Nationality;
     List<DocumentDTO> listDocuments = new ArrayList<DocumentDTO>();
@@ -113,5 +114,13 @@ public class ClientDTO {
 
     public void setClientId(long clientId) {
         this.clientId = clientId;
+    }
+
+    public String getIncomeBill() {
+        return incomeBill;
+    }
+
+    public void setIncomeBill(String incomeBill) {
+        this.incomeBill = incomeBill;
     }
 }

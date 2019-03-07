@@ -11,4 +11,7 @@ public class DocumentDTO {
     Date expirationDate;
     String scanId;
 
+    public DocumentDTO(long docId) {
+        this.docId=docId;
+    }
 }
