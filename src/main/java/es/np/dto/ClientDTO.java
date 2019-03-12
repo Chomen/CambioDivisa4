@@ -1,6 +1,10 @@
 package es.np.dto;
 
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +21,33 @@ public class ClientDTO {
     double foreignAmount;
     String incomeBill;
     String curr;
-    String Nationality;
+    String nationality;
     List<DocumentDTO> listDocuments = new ArrayList<DocumentDTO>();
+    private static final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
+    public ClientDTO(){
 
+    }
+    public ClientDTO(List<Object> resultRow) throws ParseException {
+        System.out.println(resultRow);
+        clientId=Long.parseLong((String)resultRow.get(0));
+        name=(String)resultRow.get(1);
+        surname1=(String)resultRow.get(2);
+        surname2=(String)resultRow.get(3);
+        birthDate=sdf.parse((String)resultRow.get(4));
+        phoneNumber=Long.parseLong((String)resultRow.get(5));
+        spainResident="SI".compareTo((String)resultRow.get(6))==0;
+        incomeBill=(String)resultRow.get(7);
+        lastAmount=Double.parseDouble((String)resultRow.get(8));
+        foreignAmount=Double.parseDouble((String)resultRow.get(9));
+        curr =(String)resultRow.get(10);
+        nationality=(String)resultRow.get(11);
+        for (int i=12;i<=14;i++) {
+            if (StringUtils.isEmpty((String) resultRow.get(i))) {
+                return;
+            }
+            listDocuments.add(new DocumentDTO(Long.parseLong((String)resultRow.get(i))));
+        }
+    }
     public String getName() {
         return name;
     }
@@ -93,11 +121,11 @@ public class ClientDTO {
     }
 
     public String getNationality() {
-        return Nationality;
+        return nationality;
     }
 
     public void setNationality(String nationality) {
-        Nationality = nationality;
+        nationality = nationality;
     }
 
     public List<DocumentDTO> getListDocuments() {
@@ -122,5 +150,28 @@ public class ClientDTO {
 
     public void setIncomeBill(String incomeBill) {
         this.incomeBill = incomeBill;
+    }
+    public List<Object> getResultRow(){
+        System.out.println(this);
+        List<Object> resultRow= new ArrayList<Object>();
+        resultRow.set(0,clientId);
+        resultRow.set(1,name);
+        resultRow.set(2,surname1);
+        resultRow.set(3,surname2);
+        resultRow.set(4,sdf.format(birthDate));
+        resultRow.set(5,phoneNumber);
+        resultRow.set(6,spainResident?"SI":"NO");
+        resultRow.set(7,incomeBill);
+        resultRow.set(8,lastAmount);
+        resultRow.set(9,foreignAmount);
+        resultRow.set(10,curr);
+        resultRow.set(11,nationality);
+        int i=12;
+        for (DocumentDTO doc:listDocuments) {
+            resultRow.set(i,doc);
+            i++;
+        }
+        return resultRow;
+
     }
 }
