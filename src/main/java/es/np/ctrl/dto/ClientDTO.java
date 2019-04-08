@@ -1,4 +1,4 @@
-package es.np.dto;
+package es.np.ctrl.dto;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +14,7 @@ public class ClientDTO {
     String name;
     String surname1;
     String surname2;
-    Date birthDate;
+    Date birthDate=new Date();
     long phoneNumber;
     boolean spainResident;
     double lastAmount;
@@ -154,22 +154,20 @@ public class ClientDTO {
     public List<Object> getResultRow(){
         System.out.println(this);
         List<Object> resultRow= new ArrayList<Object>();
-        resultRow.set(0,clientId);
-        resultRow.set(1,name);
-        resultRow.set(2,surname1);
-        resultRow.set(3,surname2);
-        resultRow.set(4,sdf.format(birthDate));
-        resultRow.set(5,phoneNumber);
-        resultRow.set(6,spainResident?"SI":"NO");
-        resultRow.set(7,incomeBill);
-        resultRow.set(8,lastAmount);
-        resultRow.set(9,foreignAmount);
-        resultRow.set(10,curr);
-        resultRow.set(11,nationality);
-        int i=12;
+
+        resultRow.add(name);
+        resultRow.add(surname1);
+        resultRow.add(surname2);
+        resultRow.add(sdf.format(birthDate));
+        resultRow.add(phoneNumber);
+        resultRow.add(spainResident?"SI":"NO");
+        resultRow.add(incomeBill);
+        resultRow.add(lastAmount);
+        resultRow.add(foreignAmount);
+        resultRow.add(curr);
+        resultRow.add(nationality);
         for (DocumentDTO doc:listDocuments) {
-            resultRow.set(i,doc);
-            i++;
+            resultRow.add(doc);
         }
         return resultRow;
 

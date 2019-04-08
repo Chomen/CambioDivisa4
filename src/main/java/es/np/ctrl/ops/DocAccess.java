@@ -1,7 +1,7 @@
-package es.np.ops;
+package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
-import es.np.dto.DocumentDTO;
+import es.np.ctrl.dto.DocumentDTO;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -54,7 +54,7 @@ public class DocAccess {
 
         return new DocumentDTO(resultRow);
     }
-    public static int addDocument(DocumentDTO docDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static String addDocument(DocumentDTO docDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = docDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();

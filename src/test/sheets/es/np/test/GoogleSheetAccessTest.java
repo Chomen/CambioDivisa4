@@ -1,9 +1,9 @@
 package es.np.test;
 
-import es.np.dto.ClientDTO;
-import es.np.dto.DocumentDTO;
-import es.np.ops.ClientAccess;
-import es.np.ops.DocAccess;
+import es.np.ctrl.dto.ClientDTO;
+import es.np.ctrl.dto.DocumentDTO;
+import es.np.ctrl.ops.ClientAccess;
+import es.np.ctrl.ops.DocAccess;
 import org.junit.Before;
 import org.junit.Test;
 

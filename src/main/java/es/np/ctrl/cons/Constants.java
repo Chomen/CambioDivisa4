@@ -1,4 +1,4 @@
-package es.np.cons;
+package es.np.ctrl.cons;
 
 public class Constants {
 }

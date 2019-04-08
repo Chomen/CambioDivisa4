@@ -1,7 +1,7 @@
-package es.np.ops;
+package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
-import es.np.dto.ClientDTO;
+import es.np.ctrl.dto.ClientDTO;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -44,7 +44,7 @@ public class ClientAccess {
         return new ClientDTO(resultRow);
     }
 
-    public static int addClient(ClientDTO cDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static String addClient(ClientDTO cDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = cDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();

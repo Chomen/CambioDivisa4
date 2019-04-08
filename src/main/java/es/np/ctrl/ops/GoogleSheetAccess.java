@@ -1,4 +1,4 @@
-package es.np.ops;
+package es.np.ctrl.ops;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -112,16 +112,16 @@ public class GoogleSheetAccess {
                 .build();
         return service.spreadsheets().values().get(spreadsheetId, range).execute();
     }
-    public static int appendRow(String sheetName, List<List<Object>> listValues) throws IOException, GeneralSecurityException {
+    public static String appendRow(String sheetName, List<List<Object>> listValues) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = newTrustedTransport();
-        final String range = sheetName+"!A:E";
+  final String range = sheetName+"!A:E";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
         ValueRange valueRange= new ValueRange();
         valueRange.setValues(listValues);
         AppendValuesResponse retValues = service.spreadsheets().values().append(spreadsheetId, range, valueRange).setValueInputOption("USER_ENTERED").execute();
-        return retValues.getUpdates().getUpdatedRows();
+        return retValues.getUpdates().getUpdatedRange();
     }
     public static int updateRow(String sheetName, List<List<Object>> listValues,int offset) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = newTrustedTransport();

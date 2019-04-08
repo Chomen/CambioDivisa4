@@ -1,7 +1,7 @@
-package es.np.ops;
+package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
-import es.np.dto.OperationDTO;
+import es.np.ctrl.dto.OperationDTO;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -42,7 +42,7 @@ public class OperationAccess {
         return new OperationDTO(resultRow);
     }
 
-    public static int addOperation(OperationDTO oDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static String addOperation(OperationDTO oDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = oDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();

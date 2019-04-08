@@ -1,4 +1,4 @@
-package es.np.dto;
+package es.np.ctrl.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -92,13 +92,13 @@ public class DocumentDTO {
     public List<Object> getResultRow(){
         System.out.println(this);
         List<Object> resultRow= new ArrayList<Object>();
-        resultRow.set(0,clientId);
-        resultRow.set(1,docId);
-        resultRow.set(2,docType);
-        resultRow.set(3,docNumber);
-        resultRow.set(4,country);
-        resultRow.set(5,sdf.format(expirationDate));
-        resultRow.set(6,scanId);
+        resultRow.add(clientId);
+        resultRow.add(docId);
+        resultRow.add(docType);
+        resultRow.add(docNumber);
+        resultRow.add(country);
+        resultRow.add(sdf.format(expirationDate));
+        resultRow.add(scanId);
         System.out.println(resultRow);
         return resultRow;
     }

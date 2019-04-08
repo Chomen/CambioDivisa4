@@ -1,4 +1,4 @@
-package es.np.dto;
+package es.np.ctrl.dto;
 
 import java.util.Date;
 
