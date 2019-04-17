@@ -1,7 +1,9 @@
 package es.np.gui.controller;
 
 import es.np.ctrl.dto.ClientDTO;
+import es.np.ctrl.dto.DocumentDTO;
 import es.np.ctrl.ops.ClientAccess;
+import es.np.ctrl.ops.DocAccess;
 import es.np.gui.model.DTOModel;
 import es.np.gui.view.AddClient;
 import es.np.gui.view.AddDocument;
@@ -12,26 +14,32 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class AddClientDocController {
     private AddClient addClient;
     private AddDocument addDocument;
-    private JButton altaButton;
+    private JButton addClientButton;
+    private JButton addDocButton;
+
 
     public AddClientDocController(){
-        initComponent();
+        initComponents();
         initListeners();
     }
 
-    private void initListeners() {
-        altaButton.addActionListener(new AltaButtonListener());
-    }
-
-    private void initComponent() {
+    private void initComponents() {
         addClient = new AddClient();
         addDocument= new AddDocument();
-        altaButton = addClient.getAltaButton();
+        addClientButton = addClient.getAltaButton();
+        addDocButton=addDocument.getAddDocButton();
     }
+    private void initListeners() {
+
+        addClientButton.addActionListener(new AltaButtonListener());
+        addDocButton.addActionListener(new AddDocButtonListener());
+    }
+
 
     public void showFrame() {
         addClient.setVisible(true);
@@ -45,9 +53,9 @@ public class AddClientDocController {
             cDTO.setName(addClient.getPersonName().getText());
             cDTO.setSurname1(addClient.getSurname1().getText());
             cDTO.setSurname2(addClient.getSurname2().getText());
-            DTOModel.clientDTO=cDTO;
+
             try {
-                ClientAccess.addClient(cDTO);
+                DTOModel.clientDTO=ClientAccess.addClient(cDTO);
             } catch (GeneralSecurityException | IOException | ParseException e1) {
                 JOptionPane.showMessageDialog(null,"Ha habido un error dando de alta el cliente: " + e1.getLocalizedMessage());
             }
@@ -57,4 +65,25 @@ public class AddClientDocController {
     }
 
 
+    private class AddDocButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DocumentDTO dDTO = new DocumentDTO();
+            dDTO.setClientId(DTOModel.clientDTO.getClientId());
+            dDTO.setCountry(addDocument.getCountryField().getText());
+            dDTO.setDocNumber(addDocument.getDocNumberField().getText());
+            dDTO.setDocType((String)addDocument.getDocTypeBox().getSelectedItem());
+
+            try {
+                dDTO.transformStrExpirationDateToDate(addDocument.getExpirDateField().getText());
+
+                DTOModel.clientDTO.getListDocuments().add(DocAccess.addDocument(dDTO));
+            } catch (GeneralSecurityException | IOException | ParseException e1) {
+                JOptionPane.showMessageDialog(null,"Ha habido un error dando de alta el documento: " + e1.getLocalizedMessage());
+            }
+
+            addDocument.setVisible(false);
+            addClient.setVisible(true);
+        }
+    }
 }

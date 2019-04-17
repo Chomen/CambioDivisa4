@@ -81,7 +81,9 @@ public class DocumentDTO {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
+    public void transformStrExpirationDateToDate(String strDate) throws ParseException {
+        this.expirationDate=sdf.parse(strDate);
+    }
     public Long getScanId() {
         return scanId;
     }
@@ -93,7 +95,7 @@ public class DocumentDTO {
         System.out.println(this);
         List<Object> resultRow= new ArrayList<Object>();
         resultRow.add(clientId);
-        resultRow.add(docId);
+        resultRow.add("=ROW()");
         resultRow.add(docType);
         resultRow.add(docNumber);
         resultRow.add(country);
@@ -101,5 +103,18 @@ public class DocumentDTO {
         resultRow.add(scanId);
         System.out.println(resultRow);
         return resultRow;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentDTO{" +
+                "clientId=" + clientId +
+                ", docId=" + docId +
+                ", docType='" + docType + '\'' +
+                ", docNumber='" + docNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", expirationDate=" + expirationDate +
+                ", scanId=" + scanId +
+                '}';
     }
 }

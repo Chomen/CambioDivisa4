@@ -2,6 +2,7 @@ package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 import es.np.ctrl.dto.OperationDTO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -47,7 +48,10 @@ public class OperationAccess {
         List<Object> resultRow = oDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();
         listValues.add(resultRow);
-        return GoogleSheetAccess.appendRow("Operaciones",listValues);
+        String retValue = GoogleSheetAccess.appendRow("Operaciones",listValues);
+        String[] workUnits = StringUtils.split(StringUtils.substringAfter(retValue, "!"),":");
+        oDTO.setOperationId(Long.valueOf(workUnits[0].substring(1)));
+        return retValue;
     }
     public static int updateOperation(OperationDTO operationDTO,int offset) throws GeneralSecurityException, IOException, ParseException {
         List<Object> resultRow = operationDTO.getResultRow();

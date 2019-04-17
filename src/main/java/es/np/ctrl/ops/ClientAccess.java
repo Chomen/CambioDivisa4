@@ -2,6 +2,7 @@ package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 import es.np.ctrl.dto.ClientDTO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -44,12 +45,15 @@ public class ClientAccess {
         return new ClientDTO(resultRow);
     }
 
-    public static String addClient(ClientDTO cDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static ClientDTO addClient(ClientDTO cDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = cDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();
         listValues.add(resultRow);
-        return GoogleSheetAccess.appendRow("Clientes",listValues);
+        String retValue = GoogleSheetAccess.appendRow("Clientes", listValues);
+        String[] workUnits = StringUtils.split(StringUtils.substringAfter(retValue, "!"),":");
+        cDTO.setClientId(Long.valueOf(workUnits[0].substring(1)));
+        return cDTO;
     }
     public static int updateClient(ClientDTO clientDTO,int offset) throws GeneralSecurityException, IOException, ParseException {
         List<Object> resultRow = clientDTO.getResultRow();

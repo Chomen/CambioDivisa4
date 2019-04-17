@@ -109,4 +109,18 @@ public class OperationDTO {
         System.out.println(resultRow);
         return resultRow;
     }
+
+    @Override
+    public String toString() {
+        return "OperationDTO{" +
+                "clientDTO=" + clientDTO +
+                ", operationId=" + operationId +
+                ", operationType='" + operationType + '\'' +
+                ", inputCurrency='" + inputCurrency + '\'' +
+                ", outputCurrency='" + outputCurrency + '\'' +
+                ", currencyExchange='" + currencyExchange + '\'' +
+                ", operationDate=" + operationDate +
+                ", profit=" + profit +
+                '}';
+    }
 }

@@ -7,4 +7,15 @@ public class CurrencyExchangeDTO {
     String originCurrency;
     String finalCurrency;
     double exchangeRate;
+
+    @Override
+    public String toString() {
+        return "CurrencyExchangeDTO{" +
+                "lastModifDate=" + lastModifDate +
+                ", originCurrency='" + originCurrency + '\'' +
+                ", finalCurrency='" + finalCurrency + '\'' +
+                ", exchangeRate=" + exchangeRate +
+                '}';
+    }
 }
+

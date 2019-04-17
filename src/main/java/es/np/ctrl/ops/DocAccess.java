@@ -2,6 +2,7 @@ package es.np.ctrl.ops;
 
 import com.google.api.services.sheets.v4.model.ValueRange;
 import es.np.ctrl.dto.DocumentDTO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -54,12 +55,16 @@ public class DocAccess {
 
         return new DocumentDTO(resultRow);
     }
-    public static String addDocument(DocumentDTO docDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static DocumentDTO addDocument(DocumentDTO docDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = docDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();
         listValues.add(resultRow);
-        return GoogleSheetAccess.appendRow("Documentos",listValues);
+        String retValue = GoogleSheetAccess.appendRow("Documentos", listValues);
+        String[] workUnits = StringUtils.split(StringUtils.substringAfter(retValue, "!"),":");
+        docDTO.setDocId(Long.valueOf(workUnits[0].substring(1)));
+        return docDTO;
+
     }
     public static int updateDocument(DocumentDTO docDTO,int offset) throws GeneralSecurityException, IOException, ParseException {
 

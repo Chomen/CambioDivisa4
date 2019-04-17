@@ -41,7 +41,7 @@ public class ClientDTO {
         foreignAmount=Double.parseDouble((String)resultRow.get(9));
         curr =(String)resultRow.get(10);
         nationality=(String)resultRow.get(11);
-        for (int i=12;i<=14;i++) {
+        for (int i=12;i<=14&&i<resultRow.size();i++) {
             if (StringUtils.isEmpty((String) resultRow.get(i))) {
                 return;
             }
@@ -154,7 +154,7 @@ public class ClientDTO {
     public List<Object> getResultRow(){
         System.out.println(this);
         List<Object> resultRow= new ArrayList<Object>();
-
+        resultRow.add("=ROW()");
         resultRow.add(name);
         resultRow.add(surname1);
         resultRow.add(surname2);
@@ -171,5 +171,24 @@ public class ClientDTO {
         }
         return resultRow;
 
+    }
+
+    @Override
+    public String toString() {
+        return "ClientDTO{" +
+                "clientId=" + clientId +
+                ", name='" + name + '\'' +
+                ", surname1='" + surname1 + '\'' +
+                ", surname2='" + surname2 + '\'' +
+                ", birthDate=" + birthDate +
+                ", phoneNumber=" + phoneNumber +
+                ", spainResident=" + spainResident +
+                ", lastAmount=" + lastAmount +
+                ", foreignAmount=" + foreignAmount +
+                ", incomeBill='" + incomeBill + '\'' +
+                ", curr='" + curr + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", listDocuments=" + listDocuments +
+                '}';
     }
 }
