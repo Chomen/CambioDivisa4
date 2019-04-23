@@ -42,7 +42,7 @@ public class MainMenuController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            AddClientDocController addClientController= new AddClientDocController();
+            AddClientDocController addClientController= new AddClientDocController(mainMenu);
             mainMenu.setEnabled(false);
             addClientController.showFrame();
         }
@@ -51,7 +51,7 @@ public class MainMenuController {
     private class SearchClientButListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            SearchClientController controller= new SearchClientController();
+            SearchClientController controller= new SearchClientController(mainMenu);
             mainMenu.setEnabled(false);
             controller.showFrame();
 
@@ -61,7 +61,9 @@ public class MainMenuController {
     private class CreateOperationButListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            NewOperationController controller= new NewOperationController(mainMenu);
+            mainMenu.setEnabled(false);
+            controller.showFrame();
         }
     }
 }

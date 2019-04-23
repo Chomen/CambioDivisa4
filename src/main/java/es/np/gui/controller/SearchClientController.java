@@ -4,6 +4,7 @@ import es.np.ctrl.dto.ClientDTO;
 import es.np.ctrl.dto.DocumentDTO;
 import es.np.ctrl.ops.ClientAccess;
 import es.np.gui.model.DTOModel;
+import es.np.gui.view.MainMenu;
 import es.np.gui.view.SearchClient;
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,14 +18,18 @@ import java.text.ParseException;
 public class SearchClientController {
     private SearchClient searchClient;
     private JButton searchClientBut;
-
-    public SearchClientController(){
+    private JFrame parentMenu;
+    public SearchClientController(JFrame parentMenu){
+        this.parentMenu=parentMenu;
         initComponents();
         initListeners();
     }
+
+
     private void initComponents() {
-        searchClient.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         searchClient= new SearchClient();
+        searchClient.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         searchClientBut = searchClient.getSearchClientBut();
 
     }
@@ -62,6 +67,9 @@ public class SearchClientController {
                 JOptionPane.showMessageDialog(null,"Ha habido un error dando de alta el cliente: " + e1.getLocalizedMessage());
             }
             searchClient.dispose();
+            parentMenu.setVisible(true);
+            parentMenu.setEnabled(true);
+            JOptionPane.showMessageDialog(null,"Cliente encontrado: " + DTOModel.clientDTO + "proceda a realizar el alta de la operación");
             System.out.println(DTOModel.clientDTO);
             //TODO mostrar el cliente
 

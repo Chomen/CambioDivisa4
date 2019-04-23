@@ -10,9 +10,12 @@ public class NewOperation extends  JFrame{
     private JTextField outCurr;
     private JTextField currencyExchange;
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    public NewOperation() {
+        setSize(500,500);
+        setContentPane(newOperationPanel);
+        setLocationRelativeTo(null);
     }
+
 
     public JButton getNewOpBut() {
         return newOpBut;

@@ -23,7 +23,9 @@ public class AddClientDocController {
     private JButton addDocButton;
 
 
-    public AddClientDocController(){
+    private JFrame parentMenu;
+    public AddClientDocController(JFrame parentMenu){
+        this.parentMenu=parentMenu;
         initComponents();
         initListeners();
     }
@@ -83,7 +85,8 @@ public class AddClientDocController {
             }
 
             addDocument.setVisible(false);
-            addClient.setVisible(true);
+            parentMenu.setVisible(true);
+            parentMenu.setEnabled(true);
         }
     }
 }

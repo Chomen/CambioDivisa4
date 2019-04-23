@@ -43,7 +43,7 @@ public class OperationAccess {
         return new OperationDTO(resultRow);
     }
 
-    public static String addOperation(OperationDTO oDTO) throws GeneralSecurityException, IOException, ParseException {
+    public static OperationDTO addOperation(OperationDTO oDTO) throws GeneralSecurityException, IOException, ParseException {
 
         List<Object> resultRow = oDTO.getResultRow();
         List<List<Object>> listValues= new ArrayList<List<Object>>();
@@ -51,7 +51,7 @@ public class OperationAccess {
         String retValue = GoogleSheetAccess.appendRow("Operaciones",listValues);
         String[] workUnits = StringUtils.split(StringUtils.substringAfter(retValue, "!"),":");
         oDTO.setOperationId(Long.valueOf(workUnits[0].substring(1)));
-        return retValue;
+        return oDTO;
     }
     public static int updateOperation(OperationDTO operationDTO,int offset) throws GeneralSecurityException, IOException, ParseException {
         List<Object> resultRow = operationDTO.getResultRow();

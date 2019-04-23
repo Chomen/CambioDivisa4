@@ -12,6 +12,8 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel>
+      <module name="CambioDivisa6_main" target="1.7" />
+      <module name="CambioDivisa6_test" target="1.7" />
       <module name="CambioDivisa_main" target="1.7" />
       <module name="CambioDivisa_test" target="1.7" />
     </bytecodeTargetLevel>

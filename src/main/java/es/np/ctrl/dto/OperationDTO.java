@@ -98,14 +98,14 @@ public class OperationDTO {
     public List<Object> getResultRow(){
         System.out.println(this);
         List<Object> resultRow= new ArrayList<Object>();
-        resultRow.set(0,clientDTO.getClientId());
-        resultRow.set(1,operationId);
-        resultRow.set(2,operationType);
-        resultRow.set(3,inputCurrency);
-        resultRow.set(4,outputCurrency);
-        resultRow.set(5,currencyExchange);
-        resultRow.set(6,sdf.format(operationDate));
-        resultRow.set(7,profit);
+        resultRow.add(clientDTO.getClientId());
+        resultRow.add(operationId);
+        resultRow.add(operationType);
+        resultRow.add(inputCurrency);
+        resultRow.add(outputCurrency);
+        resultRow.add(currencyExchange);
+        resultRow.add(sdf.format(operationDate));
+        resultRow.add(profit);
         System.out.println(resultRow);
         return resultRow;
     }
